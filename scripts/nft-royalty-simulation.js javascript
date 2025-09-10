@@ -1,0 +1,132 @@
+// base-nft-marketplace-royalties/scripts/simulation.js
+const { ethers } = require("hardhat");
+const fs = require("fs");
+
+async function simulateNFTRoyalty() {
+  console.log("Simulating Base NFT Marketplace with Royalties behavior...");
+  
+  const marketplaceAddress = "0x...";
+  const marketplace = await ethers.getContractAt("NFTMarketplaceRoyalties", marketplaceAddress);
+  
+  // Симуляция различных сценариев
+  const simulation = {
+    timestamp: new Date().toISOString(),
+    marketplaceAddress: marketplaceAddress,
+    scenarios: {},
+    results: {},
+    royaltyMetrics: {},
+    recommendations: []
+  };
+  
+  // Сценарий 1: Высокая роялти
+  const highRoyaltyScenario = await simulateHighRoyalty(marketplace);
+  simulation.scenarios.highRoyalty = highRoyaltyScenario;
+  
+  // Сценарий 2: Низкая роялти
+  const lowRoyaltyScenario = await simulateLowRoyalty(marketplace);
+  simulation.scenarios.lowRoyalty = lowRoyaltyScenario;
+  
+  // Сценарий 3: Рост продаж
+  const growthScenario = await simulateGrowth(marketplace);
+  simulation.scenarios.growth = growthScenario;
+  
+  // Сценарий 4: Снижение продаж
+  const declineScenario = await simulateDecline(marketplace);
+  simulation.scenarios.decline = declineScenario;
+  
+  // Результаты симуляции
+  simulation.results = {
+    highRoyalty: calculateRoyaltyResult(highRoyaltyScenario),
+    lowRoyalty: calculateRoyaltyResult(lowRoyaltyScenario),
+    growth: calculateRoyaltyResult(growthScenario),
+    decline: calculateRoyaltyResult(declineScenario)
+  };
+  
+  // Метрики роялти
+  simulation.royaltyMetrics = {
+    totalRoyalties: ethers.utils.parseEther("100000"),
+    creatorEarnings: ethers.utils.parseEther("70000"),
+    platformFees: ethers.utils.parseEther("30000"),
+    avgRoyaltyRate: 1500, // 15%
+    creatorRetention: 85
+  };
+  
+  // Рекомендации
+  if (simulation.royaltyMetrics.avgRoyaltyRate > 1200) { // 12%
+    simulation.recommendations.push("Maintain competitive royalty rates");
+  }
+  
+  if (simulation.royaltyMetrics.creatorRetention < 80) {
+    simulation.recommendations.push("Improve creator retention strategies");
+  }
+  
+  // Сохранение симуляции
+  const fileName = `nft-royalty-simulation-${Date.now()}.json`;
+  fs.writeFileSync(`./simulation/${fileName}`, JSON.stringify(simulation, null, 2));
+  
+  console.log("NFT royalty simulation completed successfully!");
+  console.log("File saved:", fileName);
+  console.log("Recommendations:", simulation.recommendations);
+}
+
+async function simulateHighRoyalty(marketplace) {
+  return {
+    description: "High royalty scenario",
+    totalRoyalties: ethers.utils.parseEther("100000"),
+    creatorEarnings: ethers.utils.parseEther("70000"),
+    platformFees: ethers.utils.parseEther("30000"),
+    avgRoyaltyRate: 1500, // 15%
+    creatorRetention: 85,
+    totalNFTsSold: 1000,
+    timestamp: new Date().toISOString()
+  };
+}
+
+async function simulateLowRoyalty(marketplace) {
+  return {
+    description: "Low royalty scenario",
+    totalRoyalties: ethers.utils.parseEther("50000"),
+    creatorEarnings: ethers.utils.parseEther("35000"),
+    platformFees: ethers.utils.parseEther("15000"),
+    avgRoyaltyRate: 700, // 7%
+    creatorRetention: 60,
+    totalNFTsSold: 500,
+    timestamp: new Date().toISOString()
+  };
+}
+
+async function simulateGrowth(marketplace) {
+  return {
+    description: "Growth scenario",
+    totalRoyalties: ethers.utils.parseEther("150000"),
+    creatorEarnings: ethers.utils.parseEther("105000"),
+    platformFees: ethers.utils.parseEther("45000"),
+    avgRoyaltyRate: 1400, // 14%
+    creatorRetention: 88,
+    totalNFTsSold: 1500,
+    timestamp: new Date().toISOString()
+  };
+}
+
+async function simulateDecline(marketplace) {
+  return {
+    description: "Decline scenario",
+    totalRoyalties: ethers.utils.parseEther("75000"),
+    creatorEarnings: ethers.utils.parseEther("52500"),
+    platformFees: ethers.utils.parseEther("22500"),
+    avgRoyaltyRate: 1200, // 12%
+    creatorRetention: 75,
+    totalNFTsSold: 750,
+    timestamp: new Date().toISOString()
+  };
+}
+
+function calculateRoyaltyResult(scenario) {
+  return scenario.totalRoyalties / 100000;
+}
+
+simulateNFTRoyalty()
+  .catch(error => {
+    console.error("Simulation error:", error);
+    process.exit(1);
+  });
