@@ -1,27 +1,19 @@
 Base NFT Marketplace with Royalties
+
 📋 Project Description
+
 Base NFT Marketplace with Royalties is an enhanced NFT marketplace that includes automatic royalty distribution to creators. This platform ensures that artists and content creators receive ongoing compensation for their work through secondary sales.
 
 🔧 Technologies Used
+
 Programming Language: Solidity 0.8.0
 Framework: Hardhat
 Network: Base Network
 Standards: ERC-721, ERC-20
 Libraries: OpenZeppelin
+
 🏗️ Project Architecture
 
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
 base-nft-marketplace-royalties/
 ├── contracts/
 │   ├── NFTMarketplaceRoyalties.sol
@@ -33,40 +25,23 @@ base-nft-marketplace-royalties/
 ├── hardhat.config.js
 ├── package.json
 └── README.md
+
 🚀 Installation and Setup
+
 1. Clone the repository
-bash
-
-
-1
-2
-git clone https://github.com/yourusername/base-nft-marketplace-royalties.git
+git clone https://github.com/khang93033/Base-NFT-Marketplace-Royalties.git
 cd base-nft-marketplace-royalties
 2. Install dependencies
-bash
-
-
-1
 npm install
 3. Compile contracts
-bash
-
-
-1
 npx hardhat compile
 4. Run tests
-bash
-
-
-1
 npx hardhat test
 5. Deploy to Base network
-bash
-
-
-1
 npx hardhat run scripts/deploy.js --network base
+
 💰 Features
+
 Core Functionality:
 ✅ NFT listing and trading
 ✅ Creator royalty distribution
@@ -81,7 +56,9 @@ Creator Wallet Management - Direct wallet payouts
 Royalty Tracking - Detailed royalty history
 Multi-Chain Royalties - Cross-chain royalty support
 Analytics Dashboard - Royalty analytics and reports
+
 🛠️ Smart Contract Functions
+
 Core Functions:
 listNFT(uint256 tokenId, uint256 price, address royaltyRecipient, uint256 royaltyPercentage) - List NFT with royalty settings
 buyNFT(uint256 tokenId) - Purchase NFT with royalty distribution
@@ -89,6 +66,7 @@ updateRoyaltyInfo(uint256 tokenId, address newRecipient, uint256 newPercentage) 
 getRoyaltyInfo(uint256 tokenId) - Get royalty information for NFT
 claimRoyalties(address token) - Claim accumulated royalties
 getCreatorEarnings(address creator) - Get creator earnings summary
+
 Events:
 NFTListed - Emitted when NFT is listed with royalties
 NFTSold - Emitted when NFT is sold with royalty distribution
