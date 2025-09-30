@@ -73,20 +73,11 @@ NFTSold - Emitted when NFT is sold with royalty distribution
 RoyaltyUpdated - Emitted when royalty information is updated
 RoyaltyClaimed - Emitted when royalties are claimed
 RoyaltyDistribution - Emitted when royalties are distributed
+
 📊 Contract Structure
+
 Listing Structure:
-solidity
 
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
 struct Listing {
     uint256 tokenId;
     address seller;
@@ -96,23 +87,18 @@ struct Listing {
     uint256 royaltyPercentage;
     uint256 createdAt;
 }
+
 Royalty Distribution:
-solidity
 
-
-1
-2
-3
-4
-5
-6
 struct RoyaltyInfo {
     address recipient;
     uint256 percentage;
     uint256 totalEarned;
     uint256 lastDistribution;
 }
+
 ⚡ Deployment Process
+
 Prerequisites:
 Node.js >= 14.x
 npm >= 6.x
@@ -123,12 +109,10 @@ Deployment Steps:
 Configure your hardhat.config.js with Base network settings
 Set your private key in .env file
 Run deployment script:
-bash
-
-
-1
 npx hardhat run scripts/deploy.js --network base
+
 🔒 Security Considerations
+
 Security Measures:
 Reentrancy Protection - Using OpenZeppelin's ReentrancyGuard
 Input Validation - Comprehensive input validation
@@ -136,11 +120,14 @@ Access Control - Role-based access control
 Royalty Integrity - Secure royalty calculation and distribution
 Emergency Pause - Emergency pause mechanism
 Fraud Prevention - Protection against fraudulent listings
+
 Audit Status:
 Initial security audit completed
 Formal verification in progress
 Community review underway
+
 📈 Performance Metrics
+
 Gas Efficiency:
 NFT listing: ~60,000 gas
 NFT purchase: ~80,000 gas
@@ -149,7 +136,9 @@ Royalty claim: ~50,000 gas
 Transaction Speed:
 Average confirmation time: < 2 seconds
 Peak throughput: 180+ transactions/second
+
 🔄 Future Enhancements
+
 Planned Features:
 Advanced Royalty Models - Tiered royalty systems and custom models
 NFT Collections - Collection-based royalty distribution
@@ -157,26 +146,19 @@ Royalty Analytics - Comprehensive royalty analytics dashboard
 Multi-Chain Royalties - Cross-chain royalty distribution
 Creator Profiles - Enhanced creator profile management
 Smart Royalty Contracts - AI-powered royalty optimization
-🤝 Contributing
-We welcome contributions to improve the Base NFT Marketplace with Royalties:
 
+🤝 Contributing
+
+We welcome contributions to improve the Base NFT Marketplace with Royalties:
 Fork the repository
 Create your feature branch (git checkout -b feature/AmazingFeature)
 Commit your changes (git commit -m 'Add some AmazingFeature')
 Push to the branch (git push origin feature/AmazingFeature)
 Open a pull request
+
 📄 License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-📞 Support
-For support, please open an issue on our GitHub repository or contact us at:
 
-Email: support@basenftroyalties.com
-Twitter: @BaseNFTRoyalties
-Discord: Base NFT Royalties Community
-🌐 Links
-GitHub Repository: https://github.com/yourusername/base-nft-marketplace-royalties
-Base Network: https://base.org
-Documentation: https://docs.basenftroyalties.com
-Community Forum: https://community.basenftroyalties.com
 Built with ❤️ on Base Network
