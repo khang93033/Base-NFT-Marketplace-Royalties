@@ -1,4 +1,4 @@
-// base-nft-marketplace-royalties/scripts/insights.js
+
 const { ethers } = require("hardhat");
 const fs = require("fs");
 
