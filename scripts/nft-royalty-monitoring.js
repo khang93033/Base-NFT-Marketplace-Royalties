@@ -21,7 +21,7 @@ async function monitorNFTRoyaltySystem() {
   };
   
   try {
-    // Метрики роялти
+
     const royaltyMetrics = await marketplace.getRoyaltyMetrics();
     monitoringReport.royaltyMetrics = {
       totalRoyalties: royaltyMetrics.totalRoyalties.toString(),
