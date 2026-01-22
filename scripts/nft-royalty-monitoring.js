@@ -8,7 +8,7 @@ async function monitorNFTRoyaltySystem() {
   const marketplaceAddress = "0x...";
   const marketplace = await ethers.getContractAt("NFTMarketplaceRoyalties", marketplaceAddress);
   
-  // Мониторинг системы роялти
+
   const monitoringReport = {
     timestamp: new Date().toISOString(),
     marketplaceAddress: marketplaceAddress,
