@@ -20,7 +20,7 @@ async function performNFTRoyaltySecurityAudit() {
   };
   
   try {
-    // Сводка аудита
+
     const auditSummary = await marketplace.getAuditSummary();
     securityReport.auditSummary = {
       totalTests: auditSummary.totalTests.toString(),
