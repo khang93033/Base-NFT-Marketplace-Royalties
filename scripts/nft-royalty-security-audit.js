@@ -31,7 +31,7 @@ async function performNFTRoyaltySecurityAudit() {
       auditStatus: auditSummary.auditStatus
     };
     
-    // Оценка уязвимостей
+
     const vulnerabilityAssessment = await marketplace.getVulnerabilityAssessment();
     securityReport.vulnerabilityAssessment = {
       criticalVulnerabilities: vulnerabilityAssessment.criticalVulnerabilities.toString(),
