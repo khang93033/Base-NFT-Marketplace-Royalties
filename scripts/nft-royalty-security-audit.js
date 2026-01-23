@@ -8,7 +8,7 @@ async function performNFTRoyaltySecurityAudit() {
   const marketplaceAddress = "0x...";
   const marketplace = await ethers.getContractAt("NFTMarketplaceRoyalties", marketplaceAddress);
   
-  // Аудит безопасности
+
   const securityReport = {
     timestamp: new Date().toISOString(),
     marketplaceAddress: marketplaceAddress,
