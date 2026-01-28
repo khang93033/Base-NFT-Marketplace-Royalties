@@ -267,7 +267,7 @@ function createCollection(
     string memory description,
     uint256 royaltyPercentage
 ) external {
-    // Реализация создания коллекции
+    
 }
 
 function addNFTToCollection(
@@ -275,6 +275,6 @@ function addNFTToCollection(
     address collectionId,
     uint256 royaltyPercentage
 ) external {
-    // Реализация добавления NFT в коллекцию
+   
 }
 }
