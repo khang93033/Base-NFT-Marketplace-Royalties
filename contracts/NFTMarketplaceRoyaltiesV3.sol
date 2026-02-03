@@ -277,4 +277,146 @@ function addNFTToCollection(
 ) external {
    
 }
+// Добавить структуры:
+struct RoyaltyReinvestment {
+    address user;
+    address token;
+    uint256 amount;
+    uint256 reinvestmentId;
+    uint256 timestamp;
+    bool active;
+    uint256 reinvestmentFrequency;
+    uint256 lastReinvestment;
+    uint256 minReinvestmentAmount;
+    string investmentType;
+}
+
+struct UserRoyaltyStats {
+    address user;
+    uint256 totalRoyaltiesEarned;
+    uint256 totalReinvested;
+    uint256 totalNFTsSold;
+    uint256 averageRoyaltyRate;
+    uint256 firstSaleTime;
+    uint256 lastReinvestment;
+}
+
+// Добавить маппинги:
+mapping(address => RoyaltyReinvestment) public userReinvestments;
+mapping(address => UserRoyaltyStats) public userRoyaltyStats;
+
+// Добавить события:
+event RoyaltyReinvestmentEnabled(
+    address indexed user,
+    address indexed token,
+    uint256 frequency,
+    uint256 minAmount,
+    string investmentType
+);
+
+event RoyaltyReinvestmentExecuted(
+    address indexed user,
+    address indexed token,
+    uint256 amount,
+    uint256 rewards,
+    uint256 timestamp
+);
+
+event RoyaltyReinvestmentDisabled(
+    address indexed user,
+    address indexed token,
+    uint256 timestamp
+);
+
+
+function enableRoyaltyReinvestment(
+    address token,
+    uint256 frequency,
+    uint256 minAmount,
+    string memory investmentType
+) external {
+    require(frequency > 0, "Frequency must be greater than 0");
+    require(minAmount > 0, "Minimum amount must be greater than 0");
+    
+    userReinvestments[msg.sender] = RoyaltyReinvestment({
+        user: msg.sender,
+        token: token,
+        amount: 0,
+        reinvestmentId: uint256(keccak256(abi.encodePacked(msg.sender, token, block.timestamp))),
+        timestamp: block.timestamp,
+        active: true,
+        reinvestmentFrequency: frequency,
+        lastReinvestment: block.timestamp,
+        minReinvestmentAmount: minAmount,
+        investmentType: investmentType
+    });
+    
+    emit RoyaltyReinvestmentEnabled(msg.sender, token, frequency, minAmount, investmentType);
+}
+
+function disableRoyaltyReinvestment(address token) external {
+    require(userReinvestments[msg.sender].user == msg.sender, "No reinvestment set");
+    require(userReinvestments[msg.sender].token == token, "Invalid token");
+    
+    userReinvestments[msg.sender].active = false;
+    
+    emit RoyaltyReinvestmentDisabled(msg.sender, token, block.timestamp);
+}
+
+function executeRoyaltyReinvestment(address token) external {
+    RoyaltyReinvestment storage reinvestment = userReinvestments[msg.sender];
+    require(reinvestment.active, "Reinvestment not enabled");
+    require(reinvestment.token == token, "Invalid token");
+    require(block.timestamp >= reinvestment.lastReinvestment + reinvestment.reinvestmentFrequency, "Too early for reinvestment");
+    
+    // Calculate pending royalties
+    uint256 pendingRoyalties = calculatePendingRoyalties(msg.sender, token);
+    
+    // Check minimum amount
+    if (pendingRoyalties >= reinvestment.minReinvestmentAmount) {
+        // Execute reinvestment (simplified)
+        // In real implementation, this would involve staking or investing the royalties
+        
+        reinvestment.amount = pendingRoyalties;
+        reinvestment.lastReinvestment = block.timestamp;
+        
+        // Update user stats
+        UserRoyaltyStats storage stats = userRoyaltyStats[msg.sender];
+        stats.totalReinvested += pendingRoyalties;
+        stats.lastReinvestment = block.timestamp;
+        
+        emit RoyaltyReinvestmentExecuted(msg.sender, token, pendingRoyalties, pendingRoyalties, block.timestamp);
+    }
+}
+
+function calculatePendingRoyalties(address user, address token) internal view returns (uint256) {
+    // Simplified - in real implementation would calculate based on actual royalties
+    return 1000000000000000000; // 1 ETH
+}
+
+function getRoyaltyReinvestmentInfo(address user, address token) external view returns (RoyaltyReinvestment memory) {
+    return userReinvestments[user];
+}
+
+function getUserRoyaltyStats(address user) external view returns (UserRoyaltyStats memory) {
+    return userRoyaltyStats[user];
+}
+
+function getAvailableRoyaltyReinvestment(address user, address token) external view returns (uint256) {
+    RoyaltyReinvestment storage reinvestment = userReinvestments[user];
+    if (!reinvestment.active || reinvestment.token != token) {
+        return 0;
+    }
+    
+    uint256 pendingRoyalties = calculatePendingRoyalties(user, token);
+    if (pendingRoyalties >= reinvestment.minReinvestmentAmount) {
+        return pendingRoyalties;
+    }
+    return 0;
+}
+
+function getReinvestmentHistory(address user) external view returns (RoyaltyReinvestment[] memory) {
+    // Implementation would return reinvestment history
+    return new RoyaltyReinvestment[](0);
+}
 }
