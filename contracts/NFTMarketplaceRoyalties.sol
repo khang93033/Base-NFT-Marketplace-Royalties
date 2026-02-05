@@ -941,7 +941,7 @@ contract NFTMarketplaceRoyalties is ERC721, Ownable, ReentrancyGuard {
     }
     
     function getFeaturedCollections(uint256 limit) external view returns (address[] memory) {
-        // Возвращает фичеред коллекции
+        
         return new address[](0);
     }
     
