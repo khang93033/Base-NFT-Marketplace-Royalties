@@ -936,7 +936,7 @@ contract NFTMarketplaceRoyalties is ERC721, Ownable, ReentrancyGuard {
         uint256 averageRoyalty,
         uint256 lastUpdated
     ) {
-        // Возвращает статистику для конкретного создателя в коллекции
+        
         return (0, 0, 0, 0, 0);
     }
     
