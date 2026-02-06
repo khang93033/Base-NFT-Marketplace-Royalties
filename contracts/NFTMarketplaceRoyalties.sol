@@ -301,7 +301,7 @@ struct UserRoyaltyStats {
     uint256 lastReinvestment;
 }
 
-// Добавить маппинги:
+
 mapping(address => RoyaltyReinvestment) public userReinvestments;
 mapping(address => UserRoyaltyStats) public userRoyaltyStats;
 
