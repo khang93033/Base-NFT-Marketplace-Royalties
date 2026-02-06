@@ -306,7 +306,7 @@ struct UserRoyaltyStats {
 mapping(address => RoyaltyReinvestment) public userReinvestments;
 mapping(address => UserRoyaltyStats) public userRoyaltyStats;
 
-// Добавить события:
+
 event RoyaltyReinvestmentEnabled(
     address indexed user,
     address indexed token,
