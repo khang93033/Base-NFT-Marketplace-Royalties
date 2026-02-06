@@ -68,8 +68,9 @@ contract NFTMarketplaceRoyaltiesV2 is ERC721, Ownable, ReentrancyGuard {
     function listNFT(uint256 tokenId, uint256 price, address royaltyRecipient, uint256 royaltyPercentage) external nonReentrant {
         require(ownerOf(tokenId) == msg.sender, "Not owner");
         require(price > 0, "Price must be greater than 0");
-        require(royaltyPercentage <= maxRoyaltyPercentage, "Royalty too high");
+        require(royaltyPercentage <= 10000, "Royalty too high"); // 100%
         require(royaltyRecipient != address(0), "Invalid royalty recipient");
+        require(royaltyPercentage >= 100, "Royalty too low"); // Минимум 1%
         
         // Transfer NFT to marketplace
         transferFrom(msg.sender, address(this), tokenId);
