@@ -5,31 +5,28 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/common/ERC2981.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract BaseNFTWithRoyalties is ERC721URIStorage, ERC2981, Ownable {
+contract NFTMarketplaceRoyalties is ERC721URIStorage, ERC2981, Ownable {
     uint256 public nextTokenId = 1;
 
-    event Minted(address indexed to, uint256 indexed tokenId, string uri);
-    event TokenRoyaltySet(uint256 indexed tokenId, address receiver, uint96 feeNumerator);
+    event DefaultRoyaltySet(address receiver, uint96 feeNumerator);
 
     constructor(address defaultReceiver, uint96 defaultFee) ERC721("BaseNFT", "BNFT") Ownable(msg.sender) {
         require(defaultReceiver != address(0), "receiver=0");
         _setDefaultRoyalty(defaultReceiver, defaultFee);
+        emit DefaultRoyaltySet(defaultReceiver, defaultFee);
+    }
+
+    function setDefaultRoyalty(address receiver, uint96 feeNumerator) external onlyOwner {
+        require(receiver != address(0), "receiver=0");
+        require(feeNumerator <= 2000, "too high");
+        _setDefaultRoyalty(receiver, feeNumerator);
+        emit DefaultRoyaltySet(receiver, feeNumerator);
     }
 
     function mint(address to, string calldata uri) external returns (uint256 tokenId) {
-        require(to != address(0), "to=0");
         tokenId = nextTokenId++;
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
-        emit Minted(to, tokenId, uri);
-    }
-
-    function setTokenRoyalty(uint256 tokenId, address receiver, uint96 feeNumerator) external onlyOwner {
-        require(_exists(tokenId), "no token");
-        require(receiver != address(0), "receiver=0");
-        require(feeNumerator <= 2000, "too high");
-        _setTokenRoyalty(tokenId, receiver, feeNumerator);
-        emit TokenRoyaltySet(tokenId, receiver, feeNumerator);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721URIStorage, ERC2981) returns (bool) {
