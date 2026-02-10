@@ -21,7 +21,7 @@ contract NFTMarketplaceRoyalties is ERC721URIStorage, ERC2981, Ownable {
         require(feeNumerator <= 2000, "too high");
         _setDefaultRoyalty(receiver, feeNumerator);
         emit DefaultRoyaltySet(receiver, feeNumerator);
-    }
+    } 
 
     function mint(address to, string calldata uri) external returns (uint256 tokenId) {
         tokenId = nextTokenId++;
