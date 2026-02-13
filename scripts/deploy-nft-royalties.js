@@ -1,38 +1,48 @@
-
-const { ethers } = require("hardhat");
+const fs = require("fs");
+const path = require("path");
+require("dotenv").config();
 
 async function main() {
-  console.log("Deploying Base NFT Marketplace with Royalties...");
-  
   const [deployer] = await ethers.getSigners();
-  console.log("Deploying contracts with the account:", deployer.address);
-  console.log("Account balance:", (await deployer.getBalance()).toString());
+  console.log("Deployer:", deployer.address);
 
-  // Деплой контракта
-  const NFTMarketplaceRoyalties = await ethers.getContractFactory("NFTMarketplaceRoyalties");
-  const marketplace = await NFTMarketplaceRoyalties.deploy(
-    250, 
-    1000, // 10% maximum royalty
-    3000 // 30% minimum royalty
-  );
+  const defaultReceiver = process.env.ROYALTY_RECEIVER || deployer.address;
+  const defaultFee = Number(process.env.ROYALTY_FEE || "500"); // 5%
 
-  await marketplace.deployed();
+  const M = await ethers.getContractFactory("NFTMarketplaceRoyalties");
+  const m = await M.deploy(defaultReceiver, defaultFee);
+  await m.deployed();
 
-  console.log("Base NFT Marketplace with Royalties deployed to:", marketplace.address);
-  
-  // Сохраняем адрес для дальнейшего использования
-  const fs = require("fs");
-  const data = {
-    marketplace: marketplace.address,
-    owner: deployer.address
+  console.log("NFTMarketplaceRoyalties:", m.address);
+
+  // Optional: deploy RoyaltyManager if it exists and constructor takes marketplace
+  let rmAddr = "";
+  try {
+    const RM = await ethers.getContractFactory("RoyaltyManager");
+    const rm = await RM.deploy(m.address);
+    await rm.deployed();
+    rmAddr = rm.address;
+    console.log("RoyaltyManager:", rmAddr);
+  } catch (e) {
+    console.log("RoyaltyManager not deployed (constructor mismatch or missing). Skipped.");
+  }
+
+  const out = {
+    network: hre.network.name,
+    chainId: (await ethers.provider.getNetwork()).chainId,
+    deployer: deployer.address,
+    contracts: {
+      NFTMarketplaceRoyalties: m.address,
+      RoyaltyManager: rmAddr || null
+    }
   };
-  
-  fs.writeFileSync("./config/deployment.json", JSON.stringify(data, null, 2));
+
+  const outPath = path.join(__dirname, "..", "deployments.json");
+  fs.writeFileSync(outPath, JSON.stringify(out, null, 2));
+  console.log("Saved:", outPath);
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch(error => {
-    console.error(error);
-    process.exit(1);
-  });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
