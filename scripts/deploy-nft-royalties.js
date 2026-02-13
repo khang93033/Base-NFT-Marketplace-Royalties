@@ -11,7 +11,7 @@ async function main() {
   // Деплой контракта
   const NFTMarketplaceRoyalties = await ethers.getContractFactory("NFTMarketplaceRoyalties");
   const marketplace = await NFTMarketplaceRoyalties.deploy(
-    250, // 2.5% platform fee
+    250, 
     1000, // 10% maximum royalty
     3000 // 30% minimum royalty
   );
