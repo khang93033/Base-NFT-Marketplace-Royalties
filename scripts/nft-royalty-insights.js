@@ -8,7 +8,7 @@ async function generateNFTRoyaltyInsights() {
   const marketplaceAddress = "0x...";
   const marketplace = await ethers.getContractAt("NFTMarketplaceRoyalties", marketplaceAddress);
   
-  // Получение инсайтов
+
   const insights = {
     timestamp: new Date().toISOString(),
     marketplaceAddress: marketplaceAddress,
