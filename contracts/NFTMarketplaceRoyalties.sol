@@ -17,7 +17,7 @@ contract NFTMarketplaceRoyalties is ERC721URIStorage, ERC2981, Ownable {
         emit DefaultRoyaltySet(defaultReceiver, defaultFee);
     }
 
-    // Improvement: update default royalty after deploy
+
     function setDefaultRoyalty(address receiver, uint96 feeNumerator) external onlyOwner {
         require(receiver != address(0), "receiver=0");
         require(feeNumerator <= 2000, "too high");
