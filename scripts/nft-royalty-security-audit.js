@@ -52,7 +52,7 @@ async function performNFTRoyaltySecurityAudit() {
       incidentResponse: securityControls.incidentResponse
     };
     
-    // Матрица рисков
+   
     const riskMatrix = await marketplace.getRiskMatrix();
     securityReport.riskMatrix = {
       riskScore: riskMatrix.riskScore.toString(),
