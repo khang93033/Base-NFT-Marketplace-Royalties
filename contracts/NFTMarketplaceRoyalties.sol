@@ -38,5 +38,5 @@ contract NFTMarketplaceRoyalties is ERC721URIStorage, ERC2981, Ownable {
     }
     function resetTokenRoyalty(uint256 tokenId) external onlyOwner {
     _resetTokenRoyalty(tokenId);
-}
+    }
 }
