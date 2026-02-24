@@ -41,7 +41,7 @@ async function monitorNFTRoyaltySystem() {
       avgCreatorROI: creatorEarnings.avgCreatorROI.toString()
     };
     
-    // Доходы платформы
+
     const platformRevenue = await marketplace.getPlatformRevenue();
     monitoringReport.platformRevenue = {
       totalPlatformRevenue: platformRevenue.totalPlatformRevenue.toString(),
