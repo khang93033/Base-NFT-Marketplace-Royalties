@@ -93,7 +93,7 @@ contract NFTCollection is ERC721, Ownable {
     }
     
     function getCollectionNFTs(address collectionId) external view returns (uint256[] memory) {
-        // Реализация в будущем
+    
         return new uint256[](0);
     }
 }
