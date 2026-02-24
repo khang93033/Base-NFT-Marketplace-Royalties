@@ -8,7 +8,7 @@ async function analyzeNFTRoyaltyCosts() {
   const marketplaceAddress = "0x...";
   const marketplace = await ethers.getContractAt("NFTMarketplaceRoyalties", marketplaceAddress);
   
-  // Анализ затрат
+
   const costReport = {
     timestamp: new Date().toISOString(),
     marketplaceAddress: marketplaceAddress,
